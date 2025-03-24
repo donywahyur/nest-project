@@ -19,7 +19,8 @@ cd nest-project
 
 Copy the example environment file and set up your own variables:
 
-```APP_PORT=3001
+```
+APP_PORT=3001
 NODE_ENV=development
 
 MYSQL_ROOT_PASSWORD=root
