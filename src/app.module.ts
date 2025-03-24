@@ -8,6 +8,8 @@ import { CacheModule } from '@nestjs/cache-manager';
 import { AlbumModule } from './album/album.module';
 import { PhotoModule } from './photo/photo.module';
 import KeyvRedis from '@keyv/redis';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -33,6 +35,14 @@ import KeyvRedis from '@keyv/redis';
         };
       },
     }),
+    ThrottlerModule.forRoot({
+      throttlers: [
+        {
+          ttl: 60000,
+          limit: 10,
+        },
+      ],
+    }),
     CommonModule,
     UserModule,
     AuthModule,
@@ -41,6 +51,11 @@ import KeyvRedis from '@keyv/redis';
     PhotoModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
+  ],
 })
 export class AppModule {}

@@ -16,6 +16,7 @@ import {
 } from 'src/models/user.model';
 import { ApiResponse } from 'src/models/api.model';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { Throttle } from '@nestjs/throttler';
 
 @Controller('/api/users')
 export class UserController {
@@ -33,6 +34,7 @@ export class UserController {
     };
   }
 
+  @Throttle({ default: { limit: 3, ttl: 10000 } }) //max 3 request for 10s
   @Post('/login')
   async login(
     @Body() request: LoginUserRequest,
