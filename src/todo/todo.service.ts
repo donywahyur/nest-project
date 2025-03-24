@@ -172,14 +172,14 @@ export class TodoService {
     todo.completed = response.completed;
     todo.title = response.title;
 
-    const updatedAlbum = await this.prismaService.todo.update({
+    const updatedTodo = await this.prismaService.todo.update({
       where: {
         id: todoId,
       },
       data: todo,
     });
 
-    return updatedAlbum;
+    return updatedTodo;
   }
 
   async remove(userId: number, todoId: number): Promise<string> {
