@@ -1,0 +1,60 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       Int     @id @default(autoincrement())
+  username String  @unique @db.VarChar(100)
+  password String  @db.VarChar(100)
+  name     String  @db.VarChar(100)
+  phone    String  @db.VarChar(100)
+  albums   Album[]
+  Todo     Todo[]
+
+  @@map("users")
+}
+
+model Album {
+  id     Int     @id @default(autoincrement())
+  userId Int
+  title  String  @db.VarChar(255)
+  photos Photo[]
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("albums")
+}
+
+model Photo {
+  id           Int    @id @default(autoincrement())
+  albumId      Int
+  title        String @db.VarChar(255)
+  url          String @db.VarChar(255)
+  thumbnailUrl String @db.VarChar(255)
+
+  Album Album @relation(fields: [albumId], references: [id])
+
+  @@map("photos")
+}
+
+model Todo {
+  id        Int     @id @default(autoincrement())
+  title     String  @db.VarChar(100)
+  completed Boolean @default(false)
+  userId    Int
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("todos")
+}
