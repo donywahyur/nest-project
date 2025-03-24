@@ -5,6 +5,8 @@ import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { TodoModule } from './todo/todo.module';
 import { CacheModule } from '@nestjs/cache-manager';
+import { AlbumModule } from './album/album.module';
+import { PhotoModule } from './photo/photo.module';
 import KeyvRedis from '@keyv/redis';
 
 @Module({
@@ -35,6 +37,8 @@ import KeyvRedis from '@keyv/redis';
     UserModule,
     AuthModule,
     TodoModule,
+    AlbumModule,
+    PhotoModule,
   ],
   controllers: [],
   providers: [],
