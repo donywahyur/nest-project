@@ -124,4 +124,5 @@ docker exec -it nest-project-nestjs-1 bash
 
 ```sh
 npm install
+npx prisma generate
 ```
