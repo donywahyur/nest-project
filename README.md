@@ -11,7 +11,7 @@ Before running the application, ensure you have the following installed:
 ### 1️⃣ Clone the Repository
 
 ```sh
-git clone https://github.com/your-repo/nest-project.git nest-project
+git clone [https://github.com/your-repo/nest-project.git](https://github.com/donywahyur/nest-project.git) nest-project
 cd nest-project
 ```
 
