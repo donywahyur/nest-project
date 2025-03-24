@@ -193,6 +193,19 @@ export class AlbumService {
     );
     await this.findAlbum(userId, albumId);
 
+    const photos = await this.prismaService.photo.count({
+      where: {
+        albumId: albumId,
+      },
+    });
+
+    if (photos) {
+      throw new HttpException(
+        'Failed to delete record because it still referenced to other records (photos)',
+        400,
+      );
+    }
+
     await this.axios.delete(`albums/${albumId}`);
 
     await this.prismaService.album.delete({
