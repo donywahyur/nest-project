@@ -43,7 +43,7 @@ model Photo {
   url          String @db.VarChar(255)
   thumbnailUrl String @db.VarChar(255)
 
-  Album Album @relation(fields: [albumId], references: [id])
+  album Album @relation(fields: [albumId], references: [id])
 
   @@map("photos")
 }
