@@ -6,6 +6,7 @@ import { PrismaService } from 'src/common/prisma.service';
 import { ValidationService } from 'src/common/validation.service';
 import { ApiPagableResponse } from 'src/models/api.model';
 import {
+  CreateTodoRequest,
   TodoListRequest,
   TodoResponse,
   UpdateTodoRequest,
@@ -123,7 +124,7 @@ export class TodoService {
 
   async create(
     userId: number,
-    request: UpdateTodoRequest,
+    request: CreateTodoRequest,
   ): Promise<TodoResponse> {
     this.logger.info(`TodoService.update(UserId : ${userId})`);
     const createRequest = this.validationService.validate(
@@ -140,11 +141,11 @@ export class TodoService {
       .data;
     delete response.id;
 
-    const user = await this.prismaService.todo.create({
+    const todo = await this.prismaService.todo.create({
       data: response,
     });
 
-    return user;
+    return todo;
   }
 
   async update(
@@ -165,20 +166,20 @@ export class TodoService {
     //change todoId to max 200 when access put because id above 100 not exist
     const todoIdApi = todoId > 200 ? 200 : todoId;
     const response: TodoResponse = (
-      await this.axios.put(`todos/${todoIdApi}`, request)
+      await this.axios.put(`todos/${todoIdApi}`, updateRequest)
     ).data;
 
     todo.completed = response.completed;
     todo.title = response.title;
 
-    const updatedUser = await this.prismaService.todo.update({
+    const updatedAlbum = await this.prismaService.todo.update({
       where: {
         id: todoId,
       },
       data: todo,
     });
 
-    return updatedUser;
+    return updatedAlbum;
   }
 
   async remove(userId: number, todoId: number): Promise<string> {
